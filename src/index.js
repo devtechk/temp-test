@@ -2,83 +2,49 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        }
-console.log(super(props));
-    }
-    render() {
-        return (
-            <button className="square" onClick={() => this.setState({value: 'X'})}>
-                {this.state.value}
-            </button>
-        );
-    }
+const name = "Antonio";
+const surname = "Giuliano";
+const todayFull = new Date();
+const objDayLiteral = {
+    0 : "Domenica",
+    1 : "Lunedì",
+    2 : "Martedì",
+    3 : "Mercoledì",
+    4 : "Giovedì",
+    5 : "Venerdì",
+    6 : "Sabato",
+}
+const objMonthLiteral = {
+    0 : "Gennaio",
+    1 : "Febbraio",
+    2 : "Marzo",
+    3 : "Aprile",
+    4 : "Maggio",
+    5 : "Giugno",
+    6 : "Luglio",
+    7 : "Agosto",
+    8 : "Settembre",
+    9 : "Ottobre",
+    10 : "Novembre",
+    11 : "Dicembre",
+}
+let dayItaLiteral = todayFull.getDay();
+let dayItanum = todayFull.getDay();
+let monthItaLiteral = todayFull.getMonth();
+
+let d = objDayLiteral[dayItaLiteral];
+let m = objMonthLiteral[monthItaLiteral];
+
+function blunt() {
+    const element = (
+        <div>
+            <h1>My fullname is: {name} {surname}</h1>
+            <h2>Today: {d} {dayItanum} {m} {todayFull.getFullYear()}</h2>
+        </div>
+    );
+    ReactDOM.render(element, document.getElementById("root"));
+
 }
 
-class Board extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            squares: Array(9).fill(null),
-        };
-
-        console.log(super(props));
-
-    }
-    renderSquare(i) {
-        return <Square value={this.state.squares[i]} />;
-    }
-
-    render() {
-        const status = 'Next player: X';
-
-        return (
-            <div>
-                <div className="status">{status}</div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
-        );
-    }
-}
-
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board />
-                </div>
-                <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
-                </div>
-            </div>
-        );
-    }
-}
-
-// ========================================
-
-ReactDOM.render(
-    <Game />,
-    document.getElementById('root')
-);
+setInterval(blunt, 1000);
