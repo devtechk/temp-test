@@ -62,7 +62,7 @@ class Button extends React.Component {
     handleClick () {
         this.setState(function(prevState, props) {
             return {
-                isToggled: !prevState.isToggled
+                isToggled: !prevState.isToggled //il risultato sarà l'opposto del precedente stato di isToggle. il risultato di prevSt è un obj
             };
         });
     }
