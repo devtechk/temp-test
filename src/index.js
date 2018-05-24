@@ -68,12 +68,11 @@ class Button extends React.Component {
     }
     render (){
         return (
-            <button onClick={this.handleClick}>
+            <button onClick={this.handleClick} className={this.state.isToggled ? 'active' : 'deactive'}>
                 {this.state.isToggled ? 'ON' : 'OFF'}
             </button>
         );
     }
-
 }
 
 function App() {
