@@ -2,49 +2,52 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const name = "Antonio";
-const surname = "Giuliano";
-const todayFull = new Date();
-const objDayLiteral = {
-    0 : "Domenica",
-    1 : "Lunedì",
-    2 : "Martedì",
-    3 : "Mercoledì",
-    4 : "Giovedì",
-    5 : "Venerdì",
-    6 : "Sabato",
-}
-const objMonthLiteral = {
-    0 : "Gennaio",
-    1 : "Febbraio",
-    2 : "Marzo",
-    3 : "Aprile",
-    4 : "Maggio",
-    5 : "Giugno",
-    6 : "Luglio",
-    7 : "Agosto",
-    8 : "Settembre",
-    9 : "Ottobre",
-    10 : "Novembre",
-    11 : "Dicembre",
-}
-let dayItaLiteral = todayFull.getDay();
-let dayItanum = todayFull.getDay();
-let monthItaLiteral = todayFull.getMonth();
-
-let d = objDayLiteral[dayItaLiteral];
-let m = objMonthLiteral[monthItaLiteral];
-
-function blunt() {
-    const element = (
-        <div>
-            <h1>My fullname is: {name} {surname}</h1>
-            <h2>Today: {d} {dayItanum} {m} {todayFull.getFullYear()}</h2>
+//###########################################           COMMENT
+function Comment(props) {
+    return (
+        <div className="Comment-main">
+            <UserInfo user={props.author}/>
+            <div className="Comment-text">
+                {props.text}
+            </div>
+            <div className="Comment-date">
+                {formatDate(props.date)}
+            </div>
         </div>
     );
-    ReactDOM.render(element, document.getElementById("root"));
-
+}
+//###########################################           AVATAR
+function Avatar(props) {
+    return (
+        <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name}/>
+    );
+}
+//###########################################           USERINFO
+function UserInfo(props) {
+    return (
+        <div className="UserInfo">
+            <Avatar user={props.user}/>
+            <div className="UserInfo-name">
+                {props.user.name}
+            </div>
+        </div>
+    );
+}
+//###########################################           DATE
+function formatDate(date) {
+    return date.toLocaleDateString();
 }
 
+const comment = {
+    date: new Date(),
+    text: 'Text for my first comment in React',
+    author: {
+        name: 'Micky mouse',
+        avatarUrl: 'https://goo.gl/uWs5pa',
+    },
+};
 
-setInterval(blunt, 1000);
+ReactDOM.render(
+    <Comment date={comment.date} text={comment.text} author={comment.author}/>,
+    document.getElementById('root')
+);
