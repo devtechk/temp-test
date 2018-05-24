@@ -47,7 +47,13 @@ const comment = {
     },
 };
 
+function App() {
+    return (
+        <Comment date={comment.date} text={comment.text} author={comment.author}/>
+    );
+}
+
 ReactDOM.render(
-    <Comment date={comment.date} text={comment.text} author={comment.author}/>,
+    <App />,
     document.getElementById('root')
 );
