@@ -2,56 +2,91 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-//###########################################           COMMENT
-function Comment(props) {
-    return (
-        <div className="Comment-main">
-            <UserInfo user={props.author}/>
-            <div className="Comment-text">
-                {props.text}
-            </div>
-            <div className="Comment-date">
-                {formatDate(props.date)}
-            </div>
-        </div>
-    );
-}
-//###########################################           AVATAR
-function Avatar(props) {
-    return (
-        <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name}/>
-    );
-}
-//###########################################           USERINFO
-function UserInfo(props) {
-    return (
-        <div className="UserInfo">
-            <Avatar user={props.user}/>
-            <div className="UserInfo-name">
-                {props.user.name}
-            </div>
-        </div>
-    );
-}
-//###########################################           DATE
-function formatDate(date) {
-    return date.toLocaleDateString();
+/*
+* STEPS
+*
+* 1. <Clock /> viene passato al ReactDOM.render() chiama il costruttore del componente ed inizializza lo stato
+* dato che bisogna fare il display del current time.
+*
+* 2. React chiama il metodo render() del componente Clock così react viene istruito su cosa deve essere mostrato sullo shchermo.
+*
+* 3. Quando Clock viene inserito nel DOM react chiama componentDidMount() è un lifecycleHook.
+* Qui dentro il comp. Clock chiede al browser di set up a timer per chiamare tick() ogni secondo.
+*
+* 4. Ogni secondo il browser chiama tick() qui dentro il componente clock programma un UI update chiamando setState,
+* React così fa automaticamene il rendering perché lo state è cambiato.
+*
+*/
+
+
+class Clock extends React.Component {
+    constructor(props) {
+        //Eredita le props dal padre
+        super(props);
+        //inizializza lo stato: current time
+        this.state = {date: new Date()};
+    }
+
+    //il clock component chiede al browser di impostare un timer per chiamare il component tick() una volta a sec
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+    }
+   //lifecycle hook: If the Clock component is ever removed from the DOM, React calls the componentWillUnmount() lifecycle hook so the timer is stopped.
+    componentWillUnmount() {
+        clearInterval(this.timerID)
+    }
+
+    tick() {
+    // the Clock component schedules a UI update by calling setState() so by this React knows the state has changed and call again render()
+        this.setState({
+            date: new Date()
+        });
+    }
+
+    render () {
+        return (
+            <h1>{this.state.date.toLocaleTimeString()}</h1>
+        );
+    }
 }
 
-const comment = {
-    date: new Date(),
-    text: 'Text for my first comment in React',
-    author: {
-        name: 'Micky mouse',
-        avatarUrl: 'https://goo.gl/uWs5pa',
-    },
-};
+class Button extends React.Component {
+    constructor() {
+        super();
+        this.state = {isToggled:true};
+        this.handleClick = this.handleClick.bind(this);
+    }
+    handleClick () {
+        this.setState(function(prevState, props) {
+            return {
+                isToggled: !prevState.isToggled
+            };
+        });
+    }
+    render (){
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggled ? 'ON' : 'OFF'}
+            </button>
+        );
+    }
+
+}
 
 function App() {
-    return (
-        <Comment date={comment.date} text={comment.text} author={comment.author}/>
-    );
-}
+        return (
+            <div className="container">
+                <div className="content">
+                    <Clock/>
+                    <Button/>
+                </div>
+            </div>
+
+        )
+    }
 
 ReactDOM.render(
     <App />,
